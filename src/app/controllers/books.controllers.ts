@@ -10,12 +10,12 @@ booksRoutes.post("/create-book", async (req: Request, res: Response) => {
   try {
     const body = req.body;
     console.log("your body", body);
-    const book = await Book.create(body);
-    console.log("your book", book);
+    const data = await Book.create(body);
+    console.log("your book", data);
     res.status(201).json({
       success: true,
       message: "Book Creation Done",
-      book,
+      data,
     });
   } catch (error: any) {
     console.log(error);
@@ -28,12 +28,12 @@ booksRoutes.post("/create-book", async (req: Request, res: Response) => {
 });
 booksRoutes.get("/", async (req: Request, res: Response) => {
   try {
-    const books = await Book.find();
-    console.log("your all books", books);
+    const data = await Book.find();
+    console.log("your all books", data);
     res.status(201).json({
       success: true,
       message: "All Books are shone here",
-      books,
+      data,
     });
   } catch (error: any) {
     console.log(error);
@@ -47,12 +47,12 @@ booksRoutes.get("/", async (req: Request, res: Response) => {
 booksRoutes.get("/:bookId", async (req: Request, res: Response) => {
   try {
     const bookId = req.params.bookId
-    const books = await Book.findById(bookId);
-    console.log("your single books", books);
+    const data = await Book.findById(bookId);
+    console.log("your single books", data);
     res.status(201).json({
       success: true,
       message: "All Books are shone here",
-      books,
+      data,
     });
   } catch (error: any) {
     console.log(error);
@@ -67,12 +67,12 @@ booksRoutes.patch("/:bookId", async (req: Request, res: Response) => {
   try {
     const bookId = req.params.bookId;
     const updateBooks = req.body
-    const books = await Book.findByIdAndUpdate(bookId, updateBooks, {new: true})
-    console.log("your all books", books);
+    const data = await Book.findByIdAndUpdate(bookId, updateBooks, {new: true})
+    console.log("your all books", data);
     res.status(201).json({
       success: true,
       message: "Books info has been update successfully",
-      books,
+      data,
     });
   } catch (error: any) {
     console.log(error);
@@ -87,12 +87,12 @@ booksRoutes.delete("/:bookId", async (req: Request, res: Response) => {
   try {
     const bookId = req.params.bookId;
     const updateBooks = req.body
-    const books = await Book.findByIdAndDelete(bookId)
-    console.log("your book has been deleted successfully", books);
+    const data = await Book.findByIdAndDelete(bookId)
+    console.log("your book has been deleted successfully", data);
     res.status(201).json({
       success: true,
       message: "Books info has been deleted successfully",
-      books,
+      data,
     });
   } catch (error: any) {
     console.log(error);

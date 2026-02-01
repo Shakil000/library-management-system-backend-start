@@ -18,6 +18,7 @@ const BorrowedBookSchema = new Schema(
     },
   },
   {
+    versionKey: false,// versionKey will be removed from DB
     timestamps: true, // Adds createdAt and updatedAt fields automatically
   }
 );
