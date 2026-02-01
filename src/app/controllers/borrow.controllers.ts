@@ -11,7 +11,7 @@ borrowedBooksRoutes.post("/borrow-book", async (req: Request, res: Response) => 
     console.log("your book", book);
     res.status(201).json({
       success: true,
-      message: "Book Creation Done",
+      message: "Book borrowed successfully",
       book,
     });
   } catch (error: any) {
@@ -25,7 +25,7 @@ borrowedBooksRoutes.post("/borrow-book", async (req: Request, res: Response) => 
 });
 borrowedBooksRoutes.get("/", async (req: Request, res: Response) => {
   try {
-    const books = await BorrowedBook.find();
+    const books = await BorrowedBook.find().populate('book');
     console.log("your all books", books);
     res.status(201).json({
       success: true,
