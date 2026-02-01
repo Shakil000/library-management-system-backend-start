@@ -28,12 +28,12 @@ borrowedBooksRoutes.post("/borrow-book", async (req: Request, res: Response) => 
     const { bookId, quantity, dueDate } = req.body;
 
     // Static method ব্যবহার করা হচ্ছে
-    const borrowRecord = await BorrowedBook.borrowBook(bookId, quantity, dueDate);
+    const data = await BorrowedBook.borrowBook(bookId, quantity, dueDate);
 
     res.status(201).json({
       success: true,
       message: "Book borrowed successfully",
-      borrowRecord,
+      data,
     });
   } catch (error: any) {
     res.status(400).json({
@@ -48,7 +48,7 @@ borrowedBooksRoutes.get("/", async (req: Request, res: Response) => {
     console.log("your all books", books);
     res.status(201).json({
       success: true,
-      message: "All Books are shone here",
+      message: "All Books are shown here",
       books,
     });
   } catch (error: any) {
@@ -116,6 +116,48 @@ borrowedBooksRoutes.delete("/:borrowId", async (req: Request, res: Response) => 
       success: false,
       message: error.message,
       error,
+    });
+  }
+});
+borrowedBooksRoutes.get("/summary", async (req: Request, res: Response) => {
+  try {
+    const summary = await BorrowedBook.aggregate([
+      {
+        $group: {
+          _id: "$book", // book অনুযায়ী group করা হচ্ছে
+          totalQuantity: { $sum: "$quantity" }, // quantity যোগ করা হচ্ছে
+        },
+      },
+      {
+        $lookup: {
+          from: "books", // Book collection
+          localField: "_id", // group করা book id
+          foreignField: "_id", // Book এর _id এর সাথে match করবে
+          as: "bookInfo",
+        },
+      },
+      {
+        $unwind: "$bookInfo", // bookInfo array কে object বানানো
+      },
+      {
+        $project: {
+          _id: 0,
+          title: "$bookInfo.title",
+          isbn: "$bookInfo.isbn",
+          totalQuantity: 1,
+        },
+      },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      message: "Borrowed Books Summary",
+      summary,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
     });
   }
 });
