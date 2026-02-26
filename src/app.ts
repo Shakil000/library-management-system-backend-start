@@ -40,6 +40,10 @@ app.post("/api/borrow/borrow-book", async (req, res) => {
   try {
     const { bookId, quantity, dueDate } = req.body;
 
+    if (!bookId || !quantity || !dueDate) {
+      return res.status(400).json({ success: false, message: "Missing fields" });
+    }
+
     const book = await Book.findById(bookId);
     if (!book) {
       return res.status(404).json({ success: false, message: "Book not found" });
@@ -53,26 +57,35 @@ app.post("/api/borrow/borrow-book", async (req, res) => {
       return res.status(400).json({ success: false, message: "Not enough copies available" });
     }
 
-    // ✅ Borrow record create (তোমার Borrow model থাকলে)
+    // Borrow record create
     const borrow = await BorrowedBook.create({
       bookId,
       quantity,
       dueDate,
-      // Borrow record এ চাইলে isReturned রাখো
-      // isReturned: false,
     });
 
-    // ✅ Update book
-    book.copies = book.copies - quantity;
-    book.available = book.copies > 0;
-    book.isBorrowed = true; // ✅ IMPORTANT
-    await book.save();
+    // Direct update (better)
+    const updatedBook = await Book.findByIdAndUpdate(
+      bookId,
+      {
+        $inc: { copies: -quantity },
+        $set: {
+          isBorrowed: true,
+          available: book.copies - quantity > 0
+        }
+      },
+      { new: true }
+    );
+
+    console.log("Updated book:", updatedBook);
 
     return res.status(201).json({
       success: true,
       message: "Borrowed successfully",
       data: borrow,
+      updatedBook
     });
+
   } catch (error) {
     return res.status(500).json({ success: false, message: "Server error", error });
   }

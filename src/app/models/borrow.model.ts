@@ -46,10 +46,6 @@ const BorrowedBookSchema = new Schema<IBorrowedBook>(
       type: Date,
       required: true,
     },
-    isBorrowed: {
-      type: Boolean,
-      default: false,
-      },
   },
   {
     versionKey: false,// versionKey will be removed from DB
@@ -61,9 +57,10 @@ const BorrowedBookSchema = new Schema<IBorrowedBook>(
 BorrowedBookSchema.statics.borrowBook = async function (
   bookId: Types.ObjectId,
   quantity: number,
-  dueDate: Date
+  dueDate: Date,
 ) {
   const book = await Book.findById(bookId);
+  console.log("A Book",book)
 
   if (!book) throw new Error("Book not found");
   if (book.copies < quantity) throw new Error("Not enough copies available");
