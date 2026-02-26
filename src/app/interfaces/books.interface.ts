@@ -1,4 +1,3 @@
-import { Types } from "mongoose";
 
 export interface IBook {
   title: string,          // Required, trimmed string
@@ -8,4 +7,5 @@ export interface IBook {
   description?: string,   // Optional string
   copies: number,         // Required number
   available?: boolean,    // Defaults to true
+  isBorrowed: boolean,   
 }

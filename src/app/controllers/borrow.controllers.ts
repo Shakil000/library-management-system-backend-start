@@ -26,10 +26,10 @@ borrowedBooksRoutes.post(
   "/borrow-book",
   async (req: Request, res: Response) => {
     try {
-      const { bookId, quantity, dueDate } = req.body;
+      const { bookId, quantity, dueDate, isBorrowed } = req.body;
 
       // Static method ব্যবহার করা হচ্ছে
-      const data = await BorrowedBook.borrowBook(bookId, quantity, dueDate);
+      const data = await BorrowedBook.borrowBook(bookId, quantity, dueDate, isBorrowed);
 
       res.status(201).json({
         success: true,

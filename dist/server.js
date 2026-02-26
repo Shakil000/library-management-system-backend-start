@@ -8,18 +8,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const mongoose = require("mongoose");
-const app = require("./app");
+const app_1 = __importDefault(require("./app"));
 let server;
 const port = 3000;
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield mongoose.connect("mongodb+srv://shakil000:shakil000@cluster0.glpjidx.mongodb.net/Advance-Note-App?appName=Cluster0");
+            yield mongoose.connect("mongodb+srv://shakil000:shakil000@cluster0.glpjidx.mongodb.net/library-management-system?appName=Cluster0");
             console.log("Connected to mongoDB using Mongoose");
-            server = app.listen(port, () => {
-                console.log(`Example app listening on port ${port}`);
+            server = app_1.default.listen(port, () => {
+                console.log(`Library Management System Backend is listening on port ${port}`);
             });
         }
         catch (error) {

@@ -36,6 +36,7 @@ const bookSchema = new Schema<IBook>(
       message: "Copies must be a whole number. got {VALUE}",
     },
     available: { type: Boolean, default: true },
+    isBorrowed: { type: Boolean, default: false },
   },
   {
     versionKey: false,

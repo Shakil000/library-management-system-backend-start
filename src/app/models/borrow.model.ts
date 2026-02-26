@@ -25,7 +25,7 @@
 
 // export const BorrowedBook = model("BorrowedBook", BorrowedBookSchema);
 
-import { Schema, model, Types, Model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 import { Book } from "./books.model";
 import { BorrowedBookModel, IBorrowedBook } from "../interfaces/borrow.interface";
 
@@ -46,6 +46,10 @@ const BorrowedBookSchema = new Schema<IBorrowedBook>(
       type: Date,
       required: true,
     },
+    isBorrowed: {
+      type: Boolean,
+      default: false,
+      },
   },
   {
     versionKey: false,// versionKey will be removed from DB

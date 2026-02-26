@@ -4,6 +4,7 @@ export interface IBorrowedBook {
   bookId: Types.ObjectId; // Mandatory. References the borrowed book’s ID
   quantity: number; // Mandatory. Positive integer (number of copies borrowed)
   dueDate: Date; // Mandatory. The date by which the book must be returned
+  isBorrowed: boolean;
 }
 
 export interface BorrowedBookModel extends Model<IBorrowedBook> {
@@ -11,5 +12,6 @@ export interface BorrowedBookModel extends Model<IBorrowedBook> {
     bookId: Types.ObjectId,
     quantity: number,
     dueDate: Date,
+    isBorrowed: boolean,
   ): Promise<IBorrowedBook>;
 }

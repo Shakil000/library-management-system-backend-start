@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Server } from "http";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 import mongoose = require("mongoose");
 import app from "./app";
 

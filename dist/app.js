@@ -4,12 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const books_controllers_1 = require("./app/controllers/books.controllers");
+const borrow_controllers_1 = require("./app/controllers/borrow.controllers");
 const app = (0, express_1.default)();
-const port = 3000;
-app.get('/', (req, res) => {
+app.use(express_1.default.json());
+app.use("/api/books", books_controllers_1.booksRoutes);
+app.use("/api/borrow", borrow_controllers_1.borrowedBooksRoutes);
+app.get("/", (req, res) => {
     // console.log({req, res})
-    res.send('Welcome to Note app');
+    res.send("Welcome to Library Management System Backend");
 });
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
-});
+exports.default = app;
